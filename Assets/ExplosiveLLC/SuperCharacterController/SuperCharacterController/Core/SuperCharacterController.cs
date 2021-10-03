@@ -484,6 +484,7 @@ public class SuperCharacterController:MonoBehaviour
 		/// <param name="iter">Debug tool to print out which ProbeGround iteration is being run (3 are run each frame for the controller).</param>
 		public void ProbeGround(Vector3 origin, int iter)
 		{
+			//Debug.LogWarning("in probe ground");
 			ResetGrounds();
 
 			Vector3 up = controller.up;
@@ -491,9 +492,24 @@ public class SuperCharacterController:MonoBehaviour
 
 			Vector3 o = origin + (up * Tolerance);
 
+
+			//Debug.LogWarning("up");
+			//Debug.LogWarning(up);
+			//Debug.LogWarning("down");
+			//Debug.LogWarning(down);
+			//Debug.LogWarning("o");
+			//Debug.LogWarning(o);
+			//Debug.LogWarning("walkable");
+			//Debug.LogWarning(walkable);
 			// Reduce our radius by Tolerance squared to avoid failing the SphereCast due to clipping with walls.
 			float smallerRadius = controller.radius - (Tolerance * Tolerance);
 
+			//Debug.LogWarning("cast 1");
+			//Debug.LogWarning(Physics.SphereCast(o, smallerRadius, down, out RaycastHit hit, Mathf.Infinity, walkable, triggerInteraction));
+			//// Debug.LogWarning(hit);
+			//Debug.LogWarning("cast 2");
+			//Debug.LogWarning(Physics.Raycast(o, down, out hit, Mathf.Infinity, walkable, triggerInteraction));
+			//// Debug.LogWarning(hit);
 
 			if (Physics.SphereCast(o, smallerRadius, down, out RaycastHit hit, Mathf.Infinity, walkable, triggerInteraction)) {
 				SuperCollisionType superColType = hit.collider.gameObject.GetComponent<SuperCollisionType>();
