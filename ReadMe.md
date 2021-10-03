@@ -1,15 +1,26 @@
 Battle Gym
 
+original Battle system : http://roystanross.wordpress.com/
+
+Setup After import
+    Edit->Project Settings
+        input manager -> click the preset button and load input preset
+        tags and layers ->
+
+
+
 RPG style ML agent trainning ground
 
 
 Todo
 Import RPG battle system
-    -get it to work
-    -pop enemy - test controls
-    -review code
+    x-get it to work
+    x-test controls
+    x-review code
 Updates
-    Remove manual control
+    x Remove manual control
+        -x control basic movements
+        
     Add Sensors
         ray cast vision
         ray cast fighting range

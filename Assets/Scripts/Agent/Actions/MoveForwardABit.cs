@@ -1,0 +1,16 @@
+
+namespace Agent.Actions {
+    public class MoveForwardABit
+    {
+        private int forward = 500;
+        public int MoveForward()
+        {
+            if(forward>0){
+                forward --;
+                return 1 ;
+            } else {
+                return 0;
+            }
+        }
+    }
+}
