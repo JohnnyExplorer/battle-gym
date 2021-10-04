@@ -1,64 +1,64 @@
-Battle Gym
+## Battle Gym
+Unity RPG style ML agent training ground
 
 original Battle system : http://roystanross.wordpress.com/
 
-Setup After import
-    Edit->Project Settings
-        input manager -> click the preset button and load input preset
-        tags and layers ->
+# Setup After import
+
+- Edit->Project Settings
+- input manager -> click the preset button and load input preset
+- tags and layers -> same
 
 
+# Todo
 
-Unity RPG style ML agent training ground
-
-#Todo
 Import RPG battle system
-    -~~get it to work~~
-    -~~test controls~~
-    -~~review code~~
-Updates
-    - ~~Remove manual control~~
-        - ~~control basic movements~~
+- ~~get it to work~~
+- ~~test controls~~
+- ~~review code~~
+
+Code Updates
+- ~~Remove manual control~~
+- ~~control basic movements~~
        
 Add Sensors
-    -ray cast vision
-    -ray cast fighting range
+- raycast for vision
+- raycast for fighting range
+
 Battle Engine
-    -Add agents on the stage
+- Add agents on the stage
+- control resets 
 
 Basic Training
-    -Create Reward System
-        -Touch control
-        -Pathing
+- Create Reward System
+- Touch control (simple goto spot)
+- Pathing (some maze work)
 
-Reporting System
-    -one system ask from an other system
+Engine v2 
+- stat casting (mob conning)
+
 Battle System
-    -depending on existing one
-        -Implement hitpoints
-        -Random Stats
-    -start with no weapons, basic movement
-    -Create Neural Network
-        -Features
-            -Check points
-            -Stats
-            -Actions (moves)
-            -Attack Range
-            -In view
-            -Potential Max Goal
+- Depending on existing one
+    - Implement hitpoints
+    - Random Stats
+- Start with no weapons, basic movement
 
-
-
-
-
+Create Neural Network
+- Features
+    - Check points
+    - Stats
+    - Actions (moves)
+    - Attack Range
+    - In view
+    - Potential Max Goal
 
 Down the Road
-    -Path Finding
-    -Treasure Hunting
-    -Classes
-        -Scouting
-        -War
-        -Mag
-        -Commander
-            -Team Work
+- Path Finding
+- Treasure Hunting
+- Classes
+    - Scouting
+    - War
+    - Mage
+    - Commander
+        - Team Work
 
