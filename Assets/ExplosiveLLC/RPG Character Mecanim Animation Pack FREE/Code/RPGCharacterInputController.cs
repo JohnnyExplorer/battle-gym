@@ -72,7 +72,6 @@ namespace RPGCharacterAnimsFREE
             try {
                 inputJump = Input.GetButtonDown("Jump");
                 Debug.LogWarning(inputJump.ToString());
-                
                 isJumpHeld = Input.GetButton("Jump");
                 inputLightHit = Input.GetButtonDown("LightHit");
                 Debug.LogWarning("Control inputLightHit" + inputLightHit.ToString());

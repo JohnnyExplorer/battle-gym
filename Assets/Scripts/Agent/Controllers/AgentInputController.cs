@@ -40,6 +40,7 @@ namespace Agent.Controllers
         private void Awake()
         {
             rpgCharacterController = GetComponent<RPGCharacterController>();
+
             currentAim = Vector3.zero;
         }
 
@@ -89,8 +90,7 @@ namespace Agent.Controllers
                 inputAiming = Input.GetButton("Aiming");
                 inputVertical = Input.GetAxisRaw("Vertical");
                 //inputHorizontal = Input.GetAxisRaw("Horizontal");
-                Debug.LogWarning("Calling Action");
-                Debug.LogWarning(agentAction.MoveForward());
+                
                 inputHorizontal = agentAction.MoveForward();
                 inputRoll = Input.GetButtonDown("L3");
 
