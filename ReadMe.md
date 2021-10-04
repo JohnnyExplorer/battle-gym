@@ -9,36 +9,44 @@ Setup After import
 
 
 
-RPG style ML agent trainning ground
+Unity RPG style ML agent training ground
 
-
-Todo
+#Todo
 Import RPG battle system
-    x-get it to work
-    x-test controls
-    x-review code
+    -~~get it to work~~
+    -~~test controls~~
+    -~~review code~~
 Updates
-    x Remove manual control
-        -x control basic movements
-        
-    Add Sensors
-        ray cast vision
-        ray cast fighting range
-    Reporting System
-        -one system ask from an other system
-    Battle System
-        -depending on existing one
-        
-    Create Reward System
+    - ~~Remove manual control~~
+        - ~~control basic movements~~
+       
+Add Sensors
+    -ray cast vision
+    -ray cast fighting range
+Battle Engine
+    -Add agents on the stage
 
-Create Neural Network
-    -Features
-        -Check points
-        -Stats
-        -Actions (moves)
-        -Attack Range
-        -In view
-        -Potential Max Goal
+Basic Training
+    -Create Reward System
+        -Touch control
+        -Pathing
+
+Reporting System
+    -one system ask from an other system
+Battle System
+    -depending on existing one
+        -Implement hitpoints
+        -Random Stats
+    -start with no weapons, basic movement
+    -Create Neural Network
+        -Features
+            -Check points
+            -Stats
+            -Actions (moves)
+            -Attack Range
+            -In view
+            -Potential Max Goal
+
 
 
 
