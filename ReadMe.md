@@ -22,19 +22,20 @@ Code Updates
 - ~~control basic movements~~
        
 Add Sensors
-- raycast for vision
+- ~~raycast for vision~~
 - raycast for fighting range
+
+Basic Training
+- Touch control (simple goto spot)
+    - add basic controls
+    - ~~ hit detection ~~
+    - create Reward System
+    - reset
+- Pathing (some maze work)
 
 Battle Engine
 - Add agents on the stage
 - control resets 
-
-Basic Training
-- Create Reward System
-- Touch control (simple goto spot)
-- Pathing (some maze work)
-
-Engine v2 
 - stat casting (mob conning)
 
 Battle System
