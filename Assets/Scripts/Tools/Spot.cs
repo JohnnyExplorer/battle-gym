@@ -9,6 +9,7 @@ namespace Agent.Tools {
         Rigidbody rBody;
         public int found = 0;
         private TouchAgent engine;
+        private int index;
         // Start is called before the first frame update
         void Start()
         {
@@ -16,8 +17,9 @@ namespace Agent.Tools {
             rBody = GetComponent<Rigidbody>();
         }
 
-        public void SetEngine(TouchAgent gameEngine) {
+        public void SetEngine(TouchAgent gameEngine, int i) {
             engine = gameEngine;
+            index = i;
         }
 
         // Update is called once per frame
@@ -35,7 +37,7 @@ namespace Agent.Tools {
             if(collision.gameObject.name == "Agent")
             {
                 Debug.Log("GOT A HIT");
-                engine.SendMessage("spotFound");
+                engine.SendMessage("spotFound",index);
             }
 
         }        

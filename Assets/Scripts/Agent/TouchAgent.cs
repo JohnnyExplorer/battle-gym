@@ -2,36 +2,50 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Agent.Tools;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Agent {
 
     public class TouchAgent : Unity.MLAgents.Agent
     {
+
         [SerializeField] public GameObject spot;
 
-        private bool spotIsFound = false;
-        private GameObject spotInstance;
+        private  List<GameObject> spotInstance;
+        
+
+        public TouchAgent() {
+            spotInstance = new List<GameObject>();
+        }
         // Start is called before the first frame update
         void Start()
         {
-            spotInstance = Instantiate(spot, new Vector3(-7f, 0.5f, 0.13f), Quaternion.identity);
-            // _spot.SendMessage("SetEngine",this);
-            var spotScript = spotInstance.GetComponent<Spot>();
-            spotScript.SetEngine(this);
-
+            foreach (int index in Enumerable.Range(0, 10))
+            {
+                Debug.Log("Index " + index);
+                float offset = index + 2  * -7f;
+                var _spot = Instantiate(spot, new Vector3(offset, 0.01f, 0), Quaternion.identity);
+                spotInstance.Add(_spot);
+                var spotScript = spotInstance[index].GetComponent<Spot>();
+                spotScript.SetEngine(this,index);
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
             // gameObject.Find("NameOfTheGameObjectTarget").GetComponent<NameOfTheScrit>()
-            if(spotIsFound) {
-                Destroy(spotInstance,1);
-            }
+            Debug.Log(spotInstance.Count);
+            
         }
 
 
-        public void spotFound() {
-            spotIsFound = true;
+        public void spotFound(int index) {
+            Destroy(spotInstance[index],1);
+            spotInstance.RemoveAt(index);
+
         }
     }
 }
