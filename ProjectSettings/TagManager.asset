@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Shadow
   - Collide
+  - Spot
+  - Agent
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - TempCast
   - Walkable
   - Terrain
-  - 
-  - 
+  - Agents
+  - Spots
   - 
   - 
   - 
