@@ -27,8 +27,9 @@ Add Sensors
 
 Basic Training
 - Touch control (simple goto spot)
-    - add basic controls
+    - ~~add basic controls~~
     - ~~ hit detection ~~
+    - Detect spot
     - create Reward System
     - reset
 - Pathing (some maze work)

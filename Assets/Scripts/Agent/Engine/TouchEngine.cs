@@ -56,8 +56,8 @@ namespace Engine {
 
         private float RandomLoc(float i){
             return Random.Range(this.Invert(i), i);
-        }         
-                  
+        }
+
 
         private void FixedUpdate() {}
 
