@@ -36,7 +36,7 @@ namespace Engine {
         private void SpotSpawn(int count) {
             foreach (int index in Enumerable.Range(0, count))
             {
-                var x = RandomLoc(area.Item1) * 2 ;
+                var x = RandomLoc(area.Item1);
                 var y = RandomLoc(area.Item2);
 
                 var _spot = Instantiate(spot, new Vector3(x, 10.0f, y), Quaternion.identity);
