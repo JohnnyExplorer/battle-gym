@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Agent;
+using Engine;
 
 namespace Agent.Tools {
     public class Spot : MonoBehaviour
     {
         Rigidbody rBody;
-        public int found = 0;
-        private TouchAgent engine;
+        Vector3 transform;
+
+        public bool found = false;
+        private TouchEngine engine;
         private int index;
         // Start is called before the first frame update
         void Start()
         {
             Debug.Log("Collision Detection Started " + found);
             rBody = GetComponent<Rigidbody>();
+            transform = GetComponent<Transform>().position;
         }
 
-        public void SetEngine(TouchAgent gameEngine, int i) {
+        public void SetEngine(TouchEngine gameEngine, int i) {
             engine = gameEngine;
             index = i;
+            Debug.Log("Setting " + index);
         }
 
         // Update is called once per frame
@@ -27,19 +32,28 @@ namespace Agent.Tools {
         {
         }
 
+        void FixedUpdate() {
+            if(found) {
+                Debug.Log("GOT A HIT " + index);
+                engine.SendMessage("SpotFound",index);
+            }
+            
+            if(GetComponent<Transform>().position.y < 0) {
+                Debug.Log("Lost a spot HIT " + index);
+                engine.SendMessage("SpotLost",index);
+            }
+        }
+
         private void OnTriggerEnter(Collider collision) {
             Debug.Log("Trigger Detected");
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
+        private void OnCollisionEnter(Collision collision) {
             Debug.Log(collision.gameObject.name);
             if(collision.gameObject.name == "Agent")
             {
-                Debug.Log("GOT A HIT");
-                engine.SendMessage("spotFound",index);
+                found = true;
             }
-
         }        
     }
 }
