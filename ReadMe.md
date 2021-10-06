@@ -23,7 +23,6 @@ Code Updates
        
 Add Sensors
 - ~~raycast for vision~~
-- raycast for fighting range
 
 Basic Training
 - Touch control (simple goto spot)
@@ -32,22 +31,28 @@ Basic Training
     - Detect spot
     - create Reward System
     - reset
+    - build agent
+    - build nn
+    - train
 - Pathing (some maze work)
 
-Battle Engine
+Battle Engine (cat and mouse)
 - Add agents on the stage
 - control resets 
 - stat casting (mob conning)
 
-Battle System
+Battle System (one on one)
 - Depending on existing one
     - Implement hitpoints
     - Random Stats
+    - raycast for fighting range
 - Start with no weapons, basic movement
 
 Create Neural Network
 - Features
     - Check points
+        -leave trail on floor (path finding)
+        -add vision to find un-touched 
     - Stats
     - Actions (moves)
     - Attack Range

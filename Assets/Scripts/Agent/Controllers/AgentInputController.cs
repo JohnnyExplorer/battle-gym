@@ -3,8 +3,6 @@ using RPGCharacterAnimsFREE;
 using RPGCharacterAnimsFREE.Actions;
 using Agent.Actions;
 using Agent.Tools;
-// change the class to hinherit 
-// overide controlls
 
 
 namespace Agent.Controllers
@@ -32,9 +30,9 @@ namespace Agent.Controllers
                 // inputRoll = Input.GetButtonDown("L3");
                 //inputVertical = Input.GetAxisRaw("Vertical");
                 //inputHorizontal = Input.GetAxisRaw("Horizontal");
-                inputVertical = agentAction.MoveForward();
-                inputHorizontal = agentAction.MoveForward();
-              
+                //inputVertical = agentAction.MoveForward();
+                //inputHorizontal = agentAction.MoveForward();
+
             } catch (System.Exception) { Debug.LogError("Inputs not found!"); }
         }
     }

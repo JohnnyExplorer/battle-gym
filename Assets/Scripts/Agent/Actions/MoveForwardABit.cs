@@ -8,7 +8,7 @@ namespace Agent.Actions {
             if(forward>0){
                 forward --;
                 return -1 ;
-            } 
+            }
             return 0;
         }
     }

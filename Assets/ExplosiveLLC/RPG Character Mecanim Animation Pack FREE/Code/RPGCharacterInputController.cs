@@ -10,17 +10,17 @@ namespace RPGCharacterAnimsFREE
         RPGCharacterController rpgCharacterController;
 
         // Inputs.
-        private float inputHorizontal = 0;
-        private float inputVertical = 0;
-        private bool inputJump;
-        private bool inputLightHit;
-        private bool inputDeath;
-        private bool inputAttackL;
-        private bool inputAttackR;
-        private float inputSwitchUpDown;
-        private float inputAim;
-        private bool inputAiming;
-        private bool inputRoll;
+        public float inputHorizontal = 0;
+        public float inputVertical = 0;
+        public bool inputJump;
+        public bool inputLightHit;
+        public bool inputDeath;
+        public bool inputAttackL;
+        public bool inputAttackR;
+        public float inputSwitchUpDown;
+        public float inputAim;
+        public bool inputAiming;
+        public bool inputRoll;
 
         // Variables.
         private Vector3 moveInput;
@@ -67,7 +67,7 @@ namespace RPGCharacterAnimsFREE
         /// <summary>
         /// Input abstraction for easier asset updates using outside control schemes.
         /// </summary>
-        private void Inputs()
+        public virtual void Inputs()
         {
             try {
                 inputJump = Input.GetButtonDown("Jump");

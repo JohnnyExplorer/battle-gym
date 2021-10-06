@@ -1,86 +1,76 @@
 using UnityEngine;
 using Unity.MLAgents;
+using Unity.MLAgents.Sensors;
 using Agent.Controllers;
 namespace Agent {
 
-    public class Kempo : Agent
+    public class Kempo : Unity.MLAgents.Agent
     {
-
-        public bool dead;
+        public int goalCount;
         public AgentInputController agentInputController;
-        public TouchEngine engine;
-
+        public Rigidbody rBody;
         public float rewardGoal = 0.3f;
         public float rewardFinished = 1.0f;
         public float penaltyFall = -0.9f;
         public float penaltyWalk = -0.001f;
-        public override void Initialize()
-        {
-            agentInputController = getComponent<AgentInputController>();
-            engine = this.transform.parent.transform.Find("TouchEngine").gameObject;
+
+        public override void Initialize() {
+            Debug.Log("Agent - Initialize");
+            agentInputController = GetComponent<AgentInputController>();
+            rBody = GetComponent<Rigidbody>();
         }
         public void EngineReset() {
+            Debug.Log("Agent - EngineReset");
             EndEpisode();
         }
 
         public void RewardGoal() {
+            Debug.Log("Agent - RewardGoal");
             AddReward(rewardGoal);
+            EndEpisode();
+        }
+
+        public void UpdateGoalCount(int count) {
+            Debug.Log("Agent - UpdateGoalCount");
+            goalCount = count;
+
         }
 
         public void RewardFinished() {
+            Debug.Log("Agent - RewardFinished");
             AddReward(rewardFinished);
         }
 
-        private void Dead() {
+        public void Dead() {
+            Debug.Log("Agent - Dead");
             AddReward(penaltyFall);
-            EndEpisode();
+           
         }
         public override void OnEpisodeBegin()
         {
-            Globals.Episode += 1;
-        }
-        public override void OnActionReceived(float[] vectorAction)
-        {
-            this.transform.Translate(Vector3.right * vectorAction[0] * Movespeed * Time.deltaTime);
-            this.transform.Translate(Vector3.forward * vectorAction[1] * Movespeed * Time.deltaTime);
-            BoundCheck();
-            Globals.ScreenText();
-        }
-        
-}
-
-    private void RandomPlaceTarget()
-    {
-        float rx = Random.Range(bndFloor.min.x, bndFloor.max.x);
-        float rz = Random.Range(bndFloor.min.z, bndFloor.max.z);
-        Target.transform.position = new Vector3(rx, 0, rz);
-    }
-    private void BoundCheck()
-    {
-        if (this.transform.position.x < bndFloor.min.x)
-        {
-            Globals.Fail += 1;
-            AddReward(-0.1f);
-            EndEpisode();
-        }
-        else if (this.transform.position.x > bndFloor.max.x)
-        {
-            Globals.Fail += 1;
-            AddReward(-0.1f);
-            EndEpisode();
+            Debug.Log("Agent - OnEpisodeBeing");
         }
 
-        if (this.transform.position.z < bndFloor.min.z)
+        public override void CollectObservations(VectorSensor sensor)
         {
-            Globals.Fail += 1;
-            AddReward(-0.1f);
-            EndEpisode();
+
+            Debug.Log("Agent - CollectObservations");
+            // Target and Agent positions & Agent velocity
+            sensor.AddObservation(this.transform.localPosition);
+            sensor.AddObservation(rBody.velocity);
+            sensor.AddObservation(goalCount);
         }
-        else if (this.transform.position.z > bndFloor.max.z)
+        public override void OnActionReceived( Unity.MLAgents.Actuators.ActionBuffers vectorAction)
         {
-            Globals.Fail += 1;
-            AddReward(-0.1f);
-            EndEpisode();
+            Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction);
+            Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction.ContinuousActions);
+            Debug.Log("Agent - action : vectorAction.DiscreteActions " + vectorAction.DiscreteActions);
+            agentInputController.inputVertical = vectorAction.DiscreteActions[0] - 1;
+            Debug.Log("Agent - Control vectorAction[0] " + vectorAction.DiscreteActions[0].GetType());
+            agentInputController.inputHorizontal = vectorAction.DiscreteActions[1] - 1;
+            Debug.Log("Agent - Control vectorAction[1] " + vectorAction.DiscreteActions[1]);
+                        
         }
     }
+
 }
