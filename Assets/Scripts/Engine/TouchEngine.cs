@@ -1,10 +1,12 @@
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
-using Agent.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Agent;
+using Agent.Controllers;
+using Agent.Tools;
 
 
 namespace Engine {
@@ -12,25 +14,31 @@ namespace Engine {
     public class TouchEngine : MonoBehaviour
     {
         //GameObject to spawn for spot touching
-        [SerializeField] public GameObject spot;
-        [SerializeField] public GameObject agent;
-        [SerializeField] public GameObject field;
-
-        public int spawnSpotCount = 5;
-
+        [SerializeField] public GameObject gameObjectSpot;
+        [SerializeField] public GameObject gameObjectAgent;
+        [SerializeField] public GameObject gameObjectField;
+        public int spotSpawnCount = 5;
         private int spotFoundCount = 0;
-
+        private Kempo kempoAgent;
         private (float,float) area;
         private Dictionary<int,GameObject?> spotInstance;
+
         public TouchEngine() {
             spotInstance = new Dictionary<int,GameObject>();
         }
+
         // Start is called before the first frame update
         void Start()
         {
             Debug.Log("Spot Engine Start");
-            area = GetFieldArea(field.GetComponent<Renderer>());
-            SpotSpawn(spawnSpotCount);
+            area = GetFieldArea(gameObjectField.GetComponent<Renderer>());
+            SpotSpawn(spotSpawnCount);
+            SetupAgent(gameObjectAgent);
+        }
+
+        private void SetupAgent(GameObject agent)
+        {
+            kempoAgent = agent.GetComponent<Kempo>();
         }
 
         private void SpotSpawn(int count) {
@@ -38,9 +46,7 @@ namespace Engine {
             {
                 var x = RandomLoc(area.Item1);
                 var y = RandomLoc(area.Item2);
-
-                var _spot = Instantiate(spot, new Vector3(x, 10.0f, y), Quaternion.identity);
-                spotInstance[index] = _spot;
+                spotInstance[index] = Instantiate(gameObjectSpot, new Vector3(x, 10.0f, y), Quaternion.identity);;
                 var spotScript = spotInstance[index].GetComponent<Spot>();
                 spotScript.SetEngine(this,index);
             }
@@ -58,8 +64,11 @@ namespace Engine {
             return Random.Range(this.Invert(i), i);
         }
 
-
-        private void FixedUpdate() {}
+        private void FixedUpdate() {
+            if(spotInstance.Count <= 0) {
+                kempoAgent.SendMessage("EngineReset");
+            }
+        }
 
         public void SpotRemove(int index) {
             Debug.Log("Removing Spot " + index);
@@ -73,13 +82,32 @@ namespace Engine {
             if(spotInstance.ContainsKey(index)) {
                 SpotRemove(index);
                 spotFoundCount ++;
+                kempoAgent.SendMessage("RewardGoal");
             }
         }
+
         public void SpotLost(int index) {
             Debug.Log("LostSignal From " + index);
             if(spotInstance.ContainsKey(index)) {
                 SpotRemove(index);
             }
+        }
+
+        public void AgentDead() {
+            Resetboard();
+        }
+
+        private void SpotDeSpawn(){
+            foreach(Spot _s in spotInstance) {
+                Destroy(_s);
+            }
+        }
+
+        private void Resetboard() {
+             SpotDeSpawn();
+             agent.transform.position = new Vector3(0, 0, 0);
+             SpotSpawn(spotSpawnCount);
+
         }
     }
 }

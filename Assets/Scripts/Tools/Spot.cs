@@ -7,9 +7,6 @@ using Engine;
 namespace Agent.Tools {
     public class Spot : MonoBehaviour
     {
-        Rigidbody rBody;
-        Vector3 transform;
-
         public bool found = false;
         private TouchEngine engine;
         private int index;
@@ -17,8 +14,6 @@ namespace Agent.Tools {
         void Start()
         {
             Debug.Log("Collision Detection Started " + found);
-            rBody = GetComponent<Rigidbody>();
-            transform = GetComponent<Transform>().position;
         }
 
         public void SetEngine(TouchEngine gameEngine, int i) {
