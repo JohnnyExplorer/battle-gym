@@ -12,7 +12,7 @@ namespace UI {
         public static int possible = 0;
         private static TextMesh GameObjectGeneralUI = null;
     
-        public static void ScreenText()
+        public static void ScreenText()        
         {
             Debug.Log("UI  - Start"+ GameObject.Find("GeneralUI"));
             if (GameObjectGeneralUI == null)

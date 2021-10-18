@@ -9,10 +9,10 @@ namespace Agent {
         public int goalCount;
         public AgentInputController agentInputController;
         public Rigidbody rBody;
-        public float rewardGoal = 0.3f;
-        public float rewardFinished = 1.0f;
-        public float penaltyFall = -0.9f;
-        public float penaltyWalk = -0.001f;
+        public float rewardGoal = 2f;
+        public float rewardFinished = 2;
+        public float penaltyFall = -2;
+        public float penaltyTimeOut = -1;
 
         public override void Initialize() {
             Debug.Log("Agent - Initialize");
@@ -26,7 +26,7 @@ namespace Agent {
 
         public void RewardGoal() {
             Debug.Log("Agent - RewardGoal");
-            AddReward(rewardGoal);
+            AddReward(rewardGoal/goalCount);
             EndEpisode();
         }
 
@@ -45,6 +45,11 @@ namespace Agent {
             Debug.Log("Agent - Dead");
             AddReward(penaltyFall);
            
+        }
+
+        private void TimeUp() {
+            Debug.Log("Agent - Time");
+            AddReward(penaltyFall);
         }
         public override void OnEpisodeBegin()
         {

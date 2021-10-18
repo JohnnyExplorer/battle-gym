@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 6204997505176941705}
   - component: {fileID: 11820596158162293}
   - component: {fileID: 1195737142464393975}
+  - component: {fileID: -1387929573062312556}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Player
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544173579730336254}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 917452de261ec0bdeac8f1674667137b, type: 3}
   m_Name: 
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544173579730336254}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b02b01da8792e143b1a29f8aa2b8168, type: 3}
   m_Name: 
@@ -366,9 +367,9 @@ MonoBehaviour:
   m_DetectableTags:
   - Spot
   m_RaysPerDirection: 11
-  m_MaxRayDegrees: 71.2
+  m_MaxRayDegrees: 180
   m_SphereCastRadius: 1.61
-  m_RayLength: 10
+  m_RayLength: 20
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
@@ -419,15 +420,21 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 28
     NumStackedVectorObservations: 5
-    VectorActionSize: 01000000010000000100000001000000
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 0300000003000000
+    VectorActionSize: 0300000003000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 1
   m_BehaviorType: 0
-  m_BehaviorName: Spot Hit
+  m_BehaviorName: SpotHit
   TeamId: 0
   m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
 --- !u!114 &1195737142464393975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +457,21 @@ MonoBehaviour:
   rewardGoal: 0.3
   rewardFinished: 1
   penaltyFall: -0.9
-  penaltyWalk: -0.001
+  penaltyTimeOut: -3
+--- !u!114 &-1387929573062312556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544173579730336254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &3664715148606548523
 GameObject:
   m_ObjectHideFlags: 0

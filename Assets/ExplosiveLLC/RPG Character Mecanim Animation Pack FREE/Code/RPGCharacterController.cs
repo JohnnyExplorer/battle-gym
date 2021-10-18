@@ -203,7 +203,7 @@ namespace RPGCharacterAnimsFREE
 
         #region Initialization
 
-        private void Awake()
+        public void Init()
         {
             // Setup Animator, add AnimationEvents script.
             animator = GetComponentInChildren<Animator>();
