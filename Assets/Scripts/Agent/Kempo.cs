@@ -15,51 +15,51 @@ namespace Agent {
         public float penaltyTimeOut = -1;
 
         public override void Initialize() {
-            Debug.Log("Agent - Initialize");
+            // Debug.Log("Agent - Initialize");
             agentInputController = GetComponent<AgentInputController>();
             rBody = GetComponent<Rigidbody>();
         }
         public void EngineReset() {
-            Debug.Log("Agent - EngineReset");
+            // Debug.Log("Agent - EngineReset");
             EndEpisode();
         }
 
         public void RewardGoal() {
-            Debug.Log("Agent - RewardGoal");
+            // Debug.Log("Agent - RewardGoal");
             AddReward(rewardGoal/goalCount);
             EndEpisode();
         }
 
         public void UpdateGoalCount(int count) {
-            Debug.Log("Agent - UpdateGoalCount");
+            // Debug.Log("Agent - UpdateGoalCount");
             goalCount = count;
 
         }
 
         public void RewardFinished() {
-            Debug.Log("Agent - RewardFinished");
+            // Debug.Log("Agent - RewardFinished");
             AddReward(rewardFinished);
         }
 
         public void Dead() {
-            Debug.Log("Agent - Dead");
+            // Debug.Log("Agent - Dead");
             AddReward(penaltyFall);
            
         }
 
         private void TimeUp() {
-            Debug.Log("Agent - Time");
+            // Debug.Log("Agent - Time");
             AddReward(penaltyFall);
         }
         public override void OnEpisodeBegin()
         {
-            Debug.Log("Agent - OnEpisodeBeing");
+            // Debug.Log("Agent - OnEpisodeBeing");
         }
 
         public override void CollectObservations(VectorSensor sensor)
         {
 
-            Debug.Log("Agent - CollectObservations");
+            // Debug.Log("Agent - CollectObservations");
             // Target and Agent positions & Agent velocity
             sensor.AddObservation(this.transform.localPosition);
             sensor.AddObservation(rBody.velocity);
@@ -67,13 +67,13 @@ namespace Agent {
         }
         public override void OnActionReceived( Unity.MLAgents.Actuators.ActionBuffers vectorAction)
         {
-            Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction);
-            Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction.ContinuousActions);
-            Debug.Log("Agent - action : vectorAction.DiscreteActions " + vectorAction.DiscreteActions);
+            // Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction);
+            // Debug.Log("Agent - action : vectorAction.ContinuousActions " + vectorAction.ContinuousActions);
+            // Debug.Log("Agent - action : vectorAction.DiscreteActions " + vectorAction.DiscreteActions);
             agentInputController.inputVertical = vectorAction.DiscreteActions[0] - 1;
-            Debug.Log("Agent - Control vectorAction[0] " + vectorAction.DiscreteActions[0].GetType());
+            // Debug.Log("Agent - Control vectorAction[0] " + vectorAction.DiscreteActions[0].GetType());
             agentInputController.inputHorizontal = vectorAction.DiscreteActions[1] - 1;
-            Debug.Log("Agent - Control vectorAction[1] " + vectorAction.DiscreteActions[1]);
+            // Debug.Log("Agent - Control vectorAction[1] " + vectorAction.DiscreteActions[1]);
                         
         }
     }

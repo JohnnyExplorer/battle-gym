@@ -71,28 +71,28 @@ namespace RPGCharacterAnimsFREE
         {
             try {
                 inputJump = Input.GetButtonDown("Jump");
-                Debug.LogWarning(inputJump.ToString());
+                //Debug.LogWarning(inputJump.ToString());
                 isJumpHeld = Input.GetButton("Jump");
                 inputLightHit = Input.GetButtonDown("LightHit");
-                Debug.LogWarning("Control inputLightHit" + inputLightHit.ToString());
+                //Debug.LogWarning("Control inputLightHit" + inputLightHit.ToString());
                 inputDeath = Input.GetButtonDown("Death");
-                Debug.LogWarning("Control inputDeath" + inputDeath.ToString());
+                //Debug.LogWarning("Control inputDeath" + inputDeath.ToString());
                 inputAttackL = Input.GetButtonDown("AttackL");
-                Debug.LogWarning("Control inputAttackL" + inputAttackL.ToString());
+                //Debug.LogWarning("Control inputAttackL" + inputAttackL.ToString());
                 inputAttackR = Input.GetButtonDown("AttackR");
-                Debug.LogWarning("Control inputAttackR" + inputAttackR.ToString());
+                //Debug.LogWarning("Control inputAttackR" + inputAttackR.ToString());
                 inputSwitchUpDown = Input.GetAxisRaw("SwitchUpDown");
-                Debug.LogWarning("Control inputSwitchUpDown" + inputSwitchUpDown.ToString());
+                //Debug.LogWarning("Control inputSwitchUpDown" + inputSwitchUpDown.ToString());
                 inputAim = Input.GetAxisRaw("Aim");
-                Debug.LogWarning("Control inputAim" + inputAim.ToString());
+                //Debug.LogWarning("Control inputAim" + inputAim.ToString());
                 inputAiming = Input.GetButton("Aiming");
-                Debug.LogWarning("Control inputAiming" + inputAiming.ToString());
+                //Debug.LogWarning("Control inputAiming" + inputAiming.ToString());
                 inputHorizontal = Input.GetAxisRaw("Horizontal");
-                Debug.LogWarning("Control inputHorizontal" + inputHorizontal.ToString());
+                //Debug.LogWarning("Control inputHorizontal" + inputHorizontal.ToString());
                 inputVertical = Input.GetAxisRaw("Vertical");
-                Debug.LogWarning("Control inputVertical" + inputVertical.ToString());
+                //Debug.LogWarning("Control inputVertical" + inputVertical.ToString());
                 inputRoll = Input.GetButtonDown("L3");
-                Debug.LogWarning("Control inputRoll" + inputRoll.ToString());
+                //Debug.LogWarning("Control inputRoll" + inputRoll.ToString());
 
                 // Injury toggle.
                 if (Input.GetKeyDown(KeyCode.I)) {

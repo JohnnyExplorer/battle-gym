@@ -352,9 +352,9 @@ namespace RPGCharacterAnimsFREE
             forward = forward.normalized;
             // Right vector relative to the camera always orthogonal to the forward vector.
             Vector3 right = new Vector3(forward.z, 0, -forward.x);
-            Debug.LogWarning("right" + right.ToString());
+            //Debug.LogWarning("right" + right.ToString());
             Vector3 relativeVelocity = _moveInput.x * right + _moveInput.y * forward;
-            Debug.LogWarning("relativeVelocity" + relativeVelocity.ToString());
+            //Debug.LogWarning("relativeVelocity" + relativeVelocity.ToString());
 
             // Reduce input for diagonal movement.
             if (relativeVelocity.magnitude > 1) { relativeVelocity.Normalize(); }

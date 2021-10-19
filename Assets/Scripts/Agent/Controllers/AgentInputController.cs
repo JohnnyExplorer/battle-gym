@@ -33,7 +33,9 @@ namespace Agent.Controllers
                 //inputVertical = agentAction.MoveForward();
                 //inputHorizontal = agentAction.MoveForward();
 
-            } catch (System.Exception) { Debug.LogError("Inputs not found!"); }
+            } catch (System.Exception) {  
+                //Debug.LogError("Inputs not found!");
+            }
         }
     }
 

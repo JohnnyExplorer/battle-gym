@@ -21,6 +21,7 @@ namespace Engine {
         public int spotSpawnCount = 5;
         public int dropLocationDivider = 4;
         private int spotFoundCount = 0;
+        public int activeSpots = 0;
         private Kempo kempoAgent;
         private (float,float) area;
         private Dictionary<int,GameObject?> spotInstance;
@@ -37,21 +38,19 @@ namespace Engine {
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("ENGINE - Spot Engine Start");
+            // Debug.Log("ENGINE - Spot Engine Start");
             HingeJoint hingeInactive = this.GetComponentInChildren(typeof(HingeJoint), true) as HingeJoint;
 
             area = GetFieldArea(transform.Find("Plane").gameObject.GetComponent<Renderer>());
-            SpotSpawn(spotSpawnCount);
+            InitialSpotSpawn(spotSpawnCount);
             SetupAgent(gameObjectAgent);
-            GeneralUI.possible = spotInstance.Count;
+            GeneralUI.possible = activeSpots;
         }
 
         private void SetupAgent(GameObject agent)
         {
             if(agentInstance)
             Destroy(agentInstance);
-
-
             agentInstance = Instantiate(agent, new Vector3(
                                                     RandomLoc(area.Item1/dropLocationDivider),
                                                     10.0f,
@@ -66,14 +65,14 @@ namespace Engine {
 
             //
             //spotInstance[index] 
-            UpdateAgent(spotInstance.Count);
+            UpdateAgent(activeSpots);
            
         }
 
-        private void SpotSpawn(int count) {
+        private void InitialSpotSpawn(int count) {
             if(!spawning) {
                 spawning = true;
-                Debug.Log("ENGINE SPAWNING!!" + count);
+                // Debug.Log("ENGINE SPAWNING!!" + count);
                 foreach (int index in Enumerable.Range(0, count))
                 {
 
@@ -82,19 +81,25 @@ namespace Engine {
                                                                                     10.0f,
                                                                                     RandomLoc(area.Item2/dropLocationDivider)
                                                                                     ), Quaternion.identity);
-                    //spotInstance[index] = Instantiate(gameObjectSpot, transform.Find("Plane").gameObject.transform, true);
-                    // //spotInstance[index] = Instantiate(gameObjectSpot);
-                    //spotInstance[index].transform.parent = transform.Find("Plane").gameObject.transform;
-                    // spotInstance[index].transform.localRotation = Quaternion.identity;
-                    //Debug.Log("Engine Spawn loc " + area);
-                    // var v = new Vector3(RandomLoc(area.Item2)/4, 10.0f, RandomLoc(area.Item1)/4);
-                    // Debug.Log(v);
-                    // spotInstance[index].transform.localScale = new Vector3(0, 0, 0);
-                    // spotInstance[index].transform.localPosition =  v;
                     var spotScript = spotInstance[index].GetComponent<Spot>();
                     spotScript.SetEngine(this,index);
-                    Debug.Log("ENGINE - Spawning Spot " + index);
+                    // Debug.Log("ENGINE - Spawning Spot " + index);
                 }
+                activeSpots = count;
+                spawning = false;
+            }
+        }
+
+        private void SpotSpawn(int count) {
+            if(spawning == false) {
+                spawning = true;
+                // Debug.Log("ENGINE SPAWNING!!" + count);
+                foreach (KeyValuePair<int, GameObject> spot in spotInstance)
+                {
+                    spot.Value.transform.position = new Vector3(RandomLoc(area.Item1/dropLocationDivider), 10.1f, RandomLoc(area.Item2/dropLocationDivider));
+                    spot.Value.GetComponent<Rigidbody>().useGravity = true;
+                }
+                activeSpots = count;
                 spawning = false;
             }
         }
@@ -112,14 +117,13 @@ namespace Engine {
         }
 
         private void FixedUpdate() {
-
-            if(spotInstance.Count <= 0) {
+            if(activeSpots <= 0 && spawning == false) {
                 if(spotFoundCount > 1) {
                     RewardAgentRewardFinished();
                 }
                 Resetboard();
             }
-            if(IsAgentDead(agentInstance)) {
+            if(IsAgentDead(agentInstance) && spawning == false) {
                 PenalizeAgentDead();
                 Resetboard();
             }
@@ -161,7 +165,7 @@ namespace Engine {
             SignalAgent("TimeUp");
         }
         private void UpdateAgent(int val) {
-            SignalAgent("UpdateGoalCount",spotInstance.Count);
+            SignalAgent("UpdateGoalCount",activeSpots);
 
         }
 
@@ -175,15 +179,18 @@ namespace Engine {
         }
 
         public void SpotRemove(int index) {
-            Debug.Log("ENGINE - Removing Spot " + index);
-            Destroy(spotInstance[index],1);
-            spotInstance.Remove(index);
-            UpdateAgent(spotInstance.Count);
-            Debug.Log("ENGINE - Count " + spotInstance.Count);
+            // Debug.Log("ENGINE - Removing Spot " + index);
+            if(activeSpots > 0)
+                activeSpots = activeSpots - 1;
+            spotInstance[index].transform.position = new Vector3(index * 5, 10.1f, 10);
+            spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
+            spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            UpdateAgent(activeSpots);
+            // Debug.Log("ENGINE - Count " + activeSpots);
         }
 
         public void SpotFound(int index) {
-            Debug.Log("ENGINE - FoundSignal From " + index);
+            // Debug.Log("ENGINE - FoundSignal From " + index);
             if(spotInstance.ContainsKey(index)) {
                 SpotRemove(index);
                 spotFoundCount ++;
@@ -192,26 +199,19 @@ namespace Engine {
         }
 
         public void SpotLost(int index) {
-            Debug.Log("ENGINE - LostSignal From " + index);
+            // Debug.Log("ENGINE - LostSignal From " + index);
             if(spotInstance.ContainsKey(index)) {
                 SpotRemove(index);
-                UpdateAgent(spotInstance.Count);
+                UpdateAgent(activeSpots);
             }
         }
 
-        private void SpotDeSpawn(){
-            //spotInstance.map(fun x -> Destroy(x));
-            //TODO map?
-            foreach(KeyValuePair<int, GameObject> _s in spotInstance) {
-                Destroy(_s.Value);
-            }
-        }
+        
 
         private void Resetboard() {
              SignalAgentEngineReset();
-             SpotDeSpawn();
-             //gameObjectAgent.transform.localPosition = new Vector3(0, 0.1f, 0);
-             SetupAgent(gameObjectAgent);
+             agentInstance.transform.localPosition = new Vector3(0, 0.1f, 0);
+             //SetupAgent(gameObjectAgent);
              SpotSpawn(spotSpawnCount);
              frames = 0;
 

@@ -14,16 +14,16 @@ namespace UI {
     
         public static void ScreenText()        
         {
-            Debug.Log("UI  - Start"+ GameObject.Find("GeneralUI"));
+            // Debug.Log("UI  - Start"+ GameObject.Find("GeneralUI"));
             if (GameObjectGeneralUI == null)
             {
-                Debug.Log("UI - Getting UI");
+                // Debug.Log("UI - Getting UI");
                 GameObjectGeneralUI = GameObject.Find("GeneralUI").GetComponent<TextMesh>();
             }
             float successPercent = (success / (float)(success + fail)) * 100;
             if (GameObjectGeneralUI != null)
             {
-                Debug.Log("UI - Updating UI");
+                // Debug.Log("UI - Updating UI");
                 GameObjectGeneralUI.text = string.Format("Episode={0}, Success={1}, Fail={2} %{3} | Current Points {4} / {5}"
                     , episode
                     , success
@@ -33,7 +33,7 @@ namespace UI {
                     , possible
                     );
             } else {
-                Debug.Log("UI - NO UI found");
+                // Debug.Log("UI - NO UI found");
             }
 
         }
