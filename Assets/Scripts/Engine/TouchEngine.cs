@@ -55,7 +55,11 @@ namespace Engine {
                                                     RandomLoc(area.Item1/dropLocationDivider),
                                                     10.0f,
                                                     RandomLoc(area.Item2/dropLocationDivider)
-                                                    ), Quaternion.identity,transform);
+                                                    ), Quaternion.identity,this.GetComponent<Transform>());
+            agentInstance.transform.localPosition = new Vector3(
+                                                    RandomLoc(area.Item1/dropLocationDivider),
+                                                    10.0f,
+                                                    RandomLoc(area.Item2/dropLocationDivider));
 
             //setup floor
             RPGCharacterController agentRpgController = agentInstance.GetComponentInParent<RPGCharacterController>();
@@ -63,7 +67,7 @@ namespace Engine {
             agentRpgController.Init();
             kempoAgent = agentInstance.GetComponent<Kempo>();
 
-            //
+            
             //spotInstance[index] 
             UpdateAgent(activeSpots);
            
@@ -80,7 +84,12 @@ namespace Engine {
                                                                                     RandomLoc(area.Item1/dropLocationDivider),
                                                                                     10.0f,
                                                                                     RandomLoc(area.Item2/dropLocationDivider)
-                                                                                    ), Quaternion.identity);
+                                                                                    ), Quaternion.identity,GetComponent<Transform>());
+                    //spotInstance[index].transform.parent = GetComponent<Transform>().root.GetComponent<Transform>();
+                    spotInstance[index].transform.localPosition = new Vector3(
+                                                    RandomLoc(area.Item1/dropLocationDivider),
+                                                    10.0f,
+                                                    RandomLoc(area.Item2/dropLocationDivider));
                     var spotScript = spotInstance[index].GetComponent<Spot>();
                     spotScript.SetEngine(this,index);
                     // Debug.Log("ENGINE - Spawning Spot " + index);
@@ -96,7 +105,7 @@ namespace Engine {
                 // Debug.Log("ENGINE SPAWNING!!" + count);
                 foreach (KeyValuePair<int, GameObject> spot in spotInstance)
                 {
-                    spot.Value.transform.position = new Vector3(RandomLoc(area.Item1/dropLocationDivider), 10.1f, RandomLoc(area.Item2/dropLocationDivider));
+                    spot.Value.transform.localPosition = new Vector3(RandomLoc(area.Item1/dropLocationDivider), 10.1f, RandomLoc(area.Item2/dropLocationDivider));
                     spot.Value.GetComponent<Rigidbody>().useGravity = true;
                 }
                 activeSpots = count;
@@ -182,7 +191,7 @@ namespace Engine {
             // Debug.Log("ENGINE - Removing Spot " + index);
             if(activeSpots > 0)
                 activeSpots = activeSpots - 1;
-            spotInstance[index].transform.position = new Vector3(index * 5, 10.1f, 10);
+            spotInstance[index].transform.localPosition = new Vector3(index * 5, 10.1f, 10);
             spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
             spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
             UpdateAgent(activeSpots);
@@ -210,7 +219,10 @@ namespace Engine {
 
         private void Resetboard() {
              SignalAgentEngineReset();
-             agentInstance.transform.localPosition = new Vector3(0, 0.1f, 0);
+             agentInstance.transform.localPosition = new Vector3(
+                                                    RandomLoc(area.Item1/dropLocationDivider),
+                                                    0.1f,
+                                                    RandomLoc(area.Item2/dropLocationDivider));
              //SetupAgent(gameObjectAgent);
              SpotSpawn(spotSpawnCount);
              frames = 0;

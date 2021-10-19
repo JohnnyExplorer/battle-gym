@@ -49,8 +49,9 @@ MonoBehaviour:
   gameObjectField: {fileID: 2059951931865356945}
   spotSpawnCount: 5
   dropLocationDivider: 4
+  activeSpots: 0
   frames: 0
-  maxframe: 1000
+  maxframe: 5000
 --- !u!1 &2059951931775829563
 GameObject:
   m_ObjectHideFlags: 0
