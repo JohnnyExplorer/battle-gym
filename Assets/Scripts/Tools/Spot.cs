@@ -45,7 +45,7 @@ namespace Agent.Tools {
 
         private void OnCollisionEnter(Collision collision) {
             // Debug.Log("SPOT - OnCollisionEnter" + collision.gameObject.name);
-            if(collision.gameObject.name == "Agent(Clone)")
+            if(collision.gameObject.name.Contains("Agent"))
             {
                 found = true;
             }

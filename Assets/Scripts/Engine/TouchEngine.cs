@@ -18,9 +18,10 @@ namespace Engine {
         [SerializeField] public GameObject gameObjectSpot;
         [SerializeField] public GameObject gameObjectAgent;
         [SerializeField] public GameObject gameObjectField;
+        //Spot controls
         public int spotSpawnCount = 5;
         public int dropLocationDivider = 4;
-        private int spotFoundCount = 0;
+        private List<int> spotFound = new List<int>();
         public int activeSpots = 0;
         private Kempo kempoAgent;
         private (float,float) area;
@@ -127,7 +128,7 @@ namespace Engine {
 
         private void FixedUpdate() {
             if(activeSpots <= 0 && spawning == false) {
-                if(spotFoundCount > 1) {
+                if(spotFound.Count > 1) {
                     RewardAgentRewardFinished();
                 }
                 Resetboard();
@@ -200,9 +201,9 @@ namespace Engine {
 
         public void SpotFound(int index) {
             // Debug.Log("ENGINE - FoundSignal From " + index);
-            if(spotInstance.ContainsKey(index)) {
+            if(!spotFound.Contains(index)) {
                 SpotRemove(index);
-                spotFoundCount ++;
+                spotFound.Add(index);
                 RewardAgentGoal();
             }
         }
@@ -218,6 +219,7 @@ namespace Engine {
         
 
         private void Resetboard() {
+             var agentTotalReward = kempoAgent.getTotalRewards();
              SignalAgentEngineReset();
              agentInstance.transform.localPosition = new Vector3(
                                                     RandomLoc(area.Item1/dropLocationDivider),
@@ -226,6 +228,8 @@ namespace Engine {
              //SetupAgent(gameObjectAgent);
              SpotSpawn(spotSpawnCount);
              frames = 0;
+             GeneralUI.reward = agentTotalReward; 
+             spotFound.Clear();
 
         }
     }
