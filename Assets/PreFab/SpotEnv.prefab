@@ -47,11 +47,11 @@ MonoBehaviour:
   gameObjectSpot: {fileID: 1512785648249720569, guid: d209dc09c251958ceb31a2306b893144, type: 3}
   gameObjectAgent: {fileID: 1544173579730336254, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
   gameObjectField: {fileID: 2059951931865356945}
-  spotSpawnCount: 5
-  dropLocationDivider: 4
+  spotSpawnCount: 3
+  dropLocationDivider: 1
   activeSpots: 0
   frames: 0
-  maxframe: 5000
+  maxframe: 500
 --- !u!1 &2059951931775829563
 GameObject:
   m_ObjectHideFlags: 0

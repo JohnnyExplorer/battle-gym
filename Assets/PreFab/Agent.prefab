@@ -304,7 +304,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 2
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &1544173579531869330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,10 +454,6 @@ MonoBehaviour:
   goalCount: 0
   agentInputController: {fileID: 0}
   rBody: {fileID: 0}
-  rewardGoal: 0.3
-  rewardFinished: 1
-  penaltyFall: -0.9
-  penaltyTimeOut: -3
 --- !u!114 &-1387929573062312556
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,53 +11,46 @@ original Battle system : http://roystanross.wordpress.com/
 
 
 # Todo
-
-Import RPG battle system
-- ~~get it to work~~
-- ~~test controls~~
-- ~~review code~~
-
-Code Updates
-- ~~Remove manual control~~
-- ~~control basic movements~~
-       
-Add Sensors
-- ~~raycast for vision~~
-
-Basic Training
+### Basic Training
 - Touch control (simple goto spot)
     - ~~add basic controls~~
-    - ~~ hit detection ~~
-    - Detect spot
-    - create Reward System
-    - reset
-    - build agent
-    - build nn
-    - train
+    - ~~hit detection~~
+    - ~~Detect spot~~
+    - ~~create Reward System~~
+    - ~~reset~~
+    - ~~build agent~~
+    - ~~build config x2~~
+    - ~~train~~
+    - implement curriculum
+    - priority spot
 - Pathing (some maze work)
+    - Drop random obstacles
 
-Battle Engine (cat and mouse)
-- Add agents on the stage
-- control resets 
-- stat casting (mob conning)
 
-Battle System (one on one)
-- Depending on existing one
-    - Implement hitpoints
-    - Random Stats
-    - raycast for fighting range
+### Battle Engine 
+Implements targeting and self play
+- Pray Predator
+- Target Con (stat broadcasting)
+
+### Battle System (one vs one)
+- Implement hitpoints
+- Stats
+- raycast for fighting range
 - Start with no weapons, basic movement
+- sheath un-sheath (movement decrease and energy)
 
-Create Neural Network
-- Features
-    - Check points
-        -leave trail on floor (path finding)
-        -add vision to find un-touched 
-    - Stats
-    - Actions (moves)
-    - Attack Range
-    - In view
-    - Potential Max Goal
+## Ideas
+- Check points
+    -leave trail on floor (path finding)
+    -add vision to find un-touched 
+- Perks
+    -vision
+    -
+- Priority Actions (classes)
+- Combo Actions 
+- Attack Range
+- In view
+- Potential Max Goal for area 
 
 Down the Road
 - Path Finding
