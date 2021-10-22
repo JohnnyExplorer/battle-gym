@@ -19,8 +19,8 @@ namespace Engine {
         [SerializeField] public GameObject gameObjectAgent;
         [SerializeField] public GameObject gameObjectField;
         //Spot controls
-        public int spotSpawnCount = 5;
-        public int dropLocationDivider = 4;
+        public int spotSpawnCount;
+        public int dropLocationDivider;
         private List<int> spotFound = new List<int>();
         public int activeSpots = 0;
         private Kempo kempoAgent;
@@ -144,10 +144,10 @@ namespace Engine {
             frames++;
 
             if(frames >= maxframe) {
-                PenilizeAgentTime();
+                PenalizeAgentTime();
                 Resetboard();
             } else {
-                PenilizeAgentForIteration();
+                PenalizeAgentforiteration();
             }
         }
         private void RewardAgentRewardFinished() {
@@ -173,12 +173,12 @@ namespace Engine {
             SignalAgent("Dead");
         }
 
-        private void PenilizeAgentTime() {
+        private void PenalizeAgentTime() {
             GeneralUI.fail += 1;
             SignalAgent("TimeUp");
         }
 
-        private void PenilizeAgentForIteration() {
+        private void PenalizeAgentforiteration() {
             SignalAgent("IterationPenalty");
         }
         
@@ -200,7 +200,7 @@ namespace Engine {
             // Debug.Log("ENGINE - Removing Spot " + index);
             if(activeSpots > 0)
                 activeSpots = activeSpots - 1;
-            spotInstance[index].transform.localPosition = new Vector3(index * 5, 10.1f, 10);
+            spotInstance[index].transform.localPosition = new Vector3((index * 5) +35, 10.1f, 55);
             spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
             spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
             UpdateAgent(activeSpots);

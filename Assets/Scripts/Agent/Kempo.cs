@@ -9,7 +9,7 @@ namespace Agent {
         public float goalCount;
         public AgentInputController agentInputController;
         public Rigidbody rBody;
-        private float rewardGoal = 1f;
+        private float rewardGoal = 5f;
         private float rewardFinished = 3f;
         private float penaltyFall = -2f;
         private float penaltyTimeOut = -1f;
@@ -37,18 +37,16 @@ namespace Agent {
         }
 
         public void RewardGoal() {
-            Debug.Log(rootName + " rewardGoal " + rewardGoal);
-            Debug.Log(rootName + " goalCount " + goalCount);
-            float reward = rewardGoal / (goalCount + 0.1f);
-            Debug.Log(rootName + " Agent - RewardGoal" + reward);
+            float reward = rewardGoal / (goalCount + 1);
+            Debug.Log(string.Format("Agent({0}) - Reward: {1} for spot {2}/{3}",
+            rootName,reward,goalCount,rewardGoal));
             AddReward(reward);
             totalRewards += reward;
             Debug.Log(rootName + " Agent - TOTAL REWARD" + totalRewards);
-            EndEpisode();
         }
 
         public void UpdateGoalCount(int count) {
-            // Debug.Log(rootName + " Agent - UpdateGoalCount");
+            Debug.Log(string.Format(" Agent({0}) - UpdateGoalCount {1}",rootName,count));
             goalCount = count;
 
         }
