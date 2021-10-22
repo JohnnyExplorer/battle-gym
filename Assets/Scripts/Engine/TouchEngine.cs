@@ -146,6 +146,8 @@ namespace Engine {
             if(frames >= maxframe) {
                 PenilizeAgentTime();
                 Resetboard();
+            } else {
+                PenilizeAgentForIteration();
             }
         }
         private void RewardAgentRewardFinished() {
@@ -172,8 +174,14 @@ namespace Engine {
         }
 
         private void PenilizeAgentTime() {
+            GeneralUI.fail += 1;
             SignalAgent("TimeUp");
         }
+
+        private void PenilizeAgentForIteration() {
+            SignalAgent("IterationPenalty");
+        }
+        
         private void UpdateAgent(int val) {
             SignalAgent("UpdateGoalCount",activeSpots);
 

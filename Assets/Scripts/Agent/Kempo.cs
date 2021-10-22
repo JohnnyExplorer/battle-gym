@@ -9,10 +9,12 @@ namespace Agent {
         public float goalCount;
         public AgentInputController agentInputController;
         public Rigidbody rBody;
-        public float rewardGoal = 1f;
-        public float rewardFinished = 2f;
-        public float penaltyFall = -2f;
-        public float penaltyTimeOut = -1f;
+        private float rewardGoal = 1f;
+        private float rewardFinished = 3f;
+        private float penaltyFall = -2f;
+        private float penaltyTimeOut = -1f;
+
+        private float iterationPenalty = -0.001f;
 
         private string rootName = "";
 
@@ -49,6 +51,12 @@ namespace Agent {
             // Debug.Log(rootName + " Agent - UpdateGoalCount");
             goalCount = count;
 
+        }
+
+        public void IterationPenalty() {
+            Debug.Log(rootName + " Agent - IterationPenalty" + iterationPenalty);
+            AddReward(iterationPenalty);
+            totalRewards += iterationPenalty;
         }
 
         public void RewardFinished() {
@@ -92,7 +100,6 @@ namespace Agent {
             // Debug.Log(rootName + " Agent - Control vectorAction[0] " + vectorAction.DiscreteActions[0].GetType());
             agentInputController.inputHorizontal = vectorAction.DiscreteActions[1] - 1;
             // Debug.Log(rootName + " Agent - Control vectorAction[1] " + vectorAction.DiscreteActions[1]);
-                        
         }
 
         public float getTotalRewards() {
