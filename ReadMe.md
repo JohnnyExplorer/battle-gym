@@ -1,7 +1,7 @@
 ## Battle Gym
 Unity RPG style ML agent training ground
 
-original Battle system : http://roystanross.wordpress.com/
+original Battle system : htEtp://roystanross.wordpress.com/
 
 # Setup After import
 
@@ -22,7 +22,12 @@ original Battle system : http://roystanross.wordpress.com/
     - ~~build config x2~~
     - ~~train~~
     - implement curriculum
-    - priority spot
+        - control spot count
+        - max episode frames
+        - divider
+    - change active goal value to float
+    - more tensorboard kpi
+- Implement Marskmen-h    
 - Pathing (some maze work)
     - Drop random obstacles
 
