@@ -19,10 +19,11 @@ namespace Engine {
         [SerializeField] public GameObject gameObjectAgent;
         [SerializeField] public GameObject gameObjectField;
         //Spot controls
-        public int configSpotSpawnCount;
-        public int configSpawnLocationDivider;
-        public int configMaxEpisodeLength = 1000;
-        public int activeSpots = 0;
+        public int spotPoolSize = 10;
+        public float configSpotSpawnCount;
+        public float configSpawnLocationDivider;
+        public float configMaxEpisodeLength = 1000;
+        public float activeSpots = 0;
         private Dictionary<int,GameObject?> spotInstance;
         private List<int> spotFound = new List<int>();
         private GameObject agentInstance;
@@ -44,18 +45,23 @@ namespace Engine {
             HingeJoint hingeInactive = this.GetComponentInChildren(typeof(HingeJoint), true) as HingeJoint;
 
             gameArea = GetFieldArea(transform.Find("Plane").gameObject.GetComponent<Renderer>());
-            InitialSpotSpawn(configSpotSpawnCount);
+            InitialSpotSpawn(spotPoolSize);
+            SpotSpawn(configSpotSpawnCount);
             SetupAgent(gameObjectAgent);
-            GeneralUI.possible = activeSpots;
+            GeneralUI.possible = (int)activeSpots;
 
             
 
         }
 
         private void SetupLessonParameters() {
-            configSpotSpawnCount = Academy.Instance.EnvironmentParameters.GetWithDefault("spotSpawnCount", configSpotSpawnCount);
-            configSpawnLocationDivider = Academy.Instance.EnvironmentParameters.GetWithDefault("dropLocationDivider", configSpawnLocationDivider);
-            configMaxEpisodeLength = Academy.Instance.EnvironmentParameters.GetWithDefault("maxframe", configMaxEpisodeLength);
+
+            Debug.Log("Got me some values configSpotSpawnCount " + (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configSpotSpawnCount", configSpotSpawnCount));
+            Debug.Log("Got me some values configSpawnLocationDivider " + Academy.Instance.EnvironmentParameters.GetWithDefault("configSpawnLocationDivider", configSpawnLocationDivider));
+            Debug.Log("Got me some values configMaxEpisodeLength " + (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configMaxEpisodeLength", configMaxEpisodeLength));
+            configSpotSpawnCount = (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configSpotSpawnCount", configSpotSpawnCount);
+            configSpawnLocationDivider = Academy.Instance.EnvironmentParameters.GetWithDefault("configSpawnLocationDivider", configSpawnLocationDivider);
+            configMaxEpisodeLength =  (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configMaxEpisodeLength", configMaxEpisodeLength);
         }
 
         private void SetupAgent(GameObject agent)
@@ -86,40 +92,31 @@ namespace Engine {
            
         }
 
-        private void InitialSpotSpawn(int count) {
-            if(!spawningLock) {
-                spawningLock = true;
-                // Debug.Log("ENGINE SPAWNING!!" + count);
-                foreach (int index in Enumerable.Range(0, count))
-                {
+        private void InitialSpotSpawn(float spotPoolSize) {
+            // Debug.Log("ENGINE SPAWNING!!" + count);
+            foreach (int index in Enumerable.Range(0, (int) spotPoolSize))
+            {
 
-                    spotInstance[index] = Instantiate(gameObjectSpot, new Vector3(
-                                                                                    RandomLoc(gameArea.Item1/configSpawnLocationDivider),
-                                                                                    10.0f,
-                                                                                    RandomLoc(gameArea.Item2/configSpawnLocationDivider)
-                                                                                    ), Quaternion.identity,GetComponent<Transform>());
-                    //spotInstance[index].transform.parent = GetComponent<Transform>().root.GetComponent<Transform>();
-                    spotInstance[index].transform.localPosition = new Vector3(
-                                                    RandomLoc(gameArea.Item1/configSpawnLocationDivider),
-                                                    10.0f,
-                                                    RandomLoc(gameArea.Item2/configSpawnLocationDivider));
-                    var spotScript = spotInstance[index].GetComponent<Spot>();
-                    spotScript.SetEngine(this,index);
-                    // Debug.Log("ENGINE - Spawning Spot " + index);
-                }
-                activeSpots = count;
-                spawningLock = false;
+                spotInstance[index] = Instantiate(gameObjectSpot, new Vector3(
+                                                                                RandomLoc(gameArea.Item1/configSpawnLocationDivider),
+                                                                                10.0f,
+                                                                                RandomLoc(gameArea.Item2/configSpawnLocationDivider)
+                                                                                ), Quaternion.identity,GetComponent<Transform>());
+                SpotPool(index);
+                var spotScript = spotInstance[index].GetComponent<Spot>();
+                spotScript.SetEngine(this,index);
             }
+            spawningLock = false;
         }
 
-        private void SpotSpawn(int count) {
+        private void SpotSpawn(float count) {
             if(spawningLock == false) {
                 spawningLock = true;
                 // Debug.Log("ENGINE SPAWNING!!" + count);
-                foreach (KeyValuePair<int, GameObject> spot in spotInstance)
+                foreach (int index in Enumerable.Range(0, (int) count))
                 {
-                    spot.Value.transform.localPosition = new Vector3(RandomLoc(gameArea.Item1/configSpawnLocationDivider), 10.1f, RandomLoc(gameArea.Item2/configSpawnLocationDivider));
-                    spot.Value.GetComponent<Rigidbody>().useGravity = true;
+                    spotInstance[index].transform.localPosition = new Vector3(RandomLoc(gameArea.Item1/configSpawnLocationDivider), 10.1f, RandomLoc(gameArea.Item2/configSpawnLocationDivider));
+                    spotInstance[index].GetComponent<Rigidbody>().useGravity = true;
                 }
                 activeSpots = count;
                 spawningLock = false;
@@ -199,7 +196,7 @@ namespace Engine {
 
         }
 
-        private void SignalAgent(string signal, int? payLoad = null) {
+        private void SignalAgent(string signal, float? payLoad = null) {
             if(payLoad == null) {
                kempoAgent.SendMessage(signal);
                return;
@@ -212,11 +209,15 @@ namespace Engine {
             // Debug.Log("ENGINE - Removing Spot " + index);
             if(activeSpots > 0)
                 activeSpots = activeSpots - 1;
-            spotInstance[index].transform.localPosition = new Vector3((index * 5) +35, 10.1f, 55);
-            spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
-            spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            SpotPool(index);
             UpdateAgentGoalCount();
             // Debug.Log("ENGINE - Count " + activeSpots);
+        }
+
+        public void SpotPool(int index) {
+            spotInstance[index].transform.localPosition = new Vector3((index * -5) +35, 10.1f, -35);
+            spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
+            spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
 
         public void SpotFound(int index) {
@@ -243,12 +244,20 @@ namespace Engine {
                 0.1f,
                 RandomLoc(gameArea.Item2/configSpawnLocationDivider));
 
-        }        
+        }    
+
+        private void ResetSpot() {
+            foreach (int index in Enumerable.Range(0, (int) spotPoolSize))
+            {
+                SpotRemove(index);
+            }
+        }    
 
         private void Resetboard() {
              SetupLessonParameters();
              SignalAgentEngineReset();
              ResetAgent();
+             ResetSpot();
              SpotSpawn(configSpotSpawnCount);
              
              currentFrame = 0;

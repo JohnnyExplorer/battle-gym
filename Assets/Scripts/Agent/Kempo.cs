@@ -45,7 +45,7 @@ namespace Agent {
             Debug.Log(rootName + " Agent - TOTAL REWARD" + totalRewards);
         }
 
-        public void UpdateGoalCount(int count) {
+        public void UpdateGoalCount(float count) {
             Debug.Log(string.Format(" Agent({0}) - UpdateGoalCount {1}",rootName,count));
             goalCount = count;
 
@@ -71,9 +71,9 @@ namespace Agent {
         }
 
         private void TimeUp() {
-            Debug.Log(rootName + " Agent - Time" + penaltyFall);
-            AddReward(penaltyFall);
-            totalRewards += penaltyFall;
+            Debug.Log(rootName + " Agent - Time" + penaltyTimeOut);
+            AddReward(penaltyTimeOut);
+            totalRewards += penaltyTimeOut;
         }
         public override void OnEpisodeBegin()
         {
