@@ -14,7 +14,7 @@ namespace Agent {
         private float penaltyFall = -2f;
         private float penaltyTimeOut = -1f;
 
-        private float iterationPenalty = -0.001f;
+        private float iterationPenalty = -0.01f;
 
         private string rootName = "";
 
@@ -86,18 +86,20 @@ namespace Agent {
             // Debug.Log(rootName + " Agent - CollectObservations");
             // Target and Agent positions & Agent velocity
             sensor.AddObservation(this.transform.localPosition);
-            sensor.AddObservation(rBody.velocity);
+            //sensor.AddObservation(rBody.velocity);
             sensor.AddObservation(goalCount);
         }
         public override void OnActionReceived( Unity.MLAgents.Actuators.ActionBuffers vectorAction)
         {
-            // Debug.Log(rootName + " Agent - action : vectorAction.ContinuousActions " + vectorAction);
-            // Debug.Log(rootName + " Agent - action : vectorAction.ContinuousActions " + vectorAction.ContinuousActions);
-            // Debug.Log(rootName + " Agent - action : vectorAction.DiscreteActions " + vectorAction.DiscreteActions);
-            agentInputController.inputVertical = vectorAction.DiscreteActions[0] - 1;
-            // Debug.Log(rootName + " Agent - Control vectorAction[0] " + vectorAction.DiscreteActions[0].GetType());
-            agentInputController.inputHorizontal = vectorAction.DiscreteActions[1] - 1;
-            // Debug.Log(rootName + " Agent - Control vectorAction[1] " + vectorAction.DiscreteActions[1]);
+            // Debug.Log(rootName + " Agent - action : vectorAction.ContinuousActions 0" + vectorAction.ContinuousActions[0]);
+            // Debug.Log(rootName + " Agent - action : vectorAction.ContinuousActions 1" + vectorAction.ContinuousActions[1]);
+
+            
+             agentInputController.inputVertical = vectorAction.ContinuousActions[0];
+             agentInputController.inputHorizontal = vectorAction.ContinuousActions[1];
+            //agentInputController.inputVertical = vectorAction.DiscreteActions[0] - 1;
+            //agentInputController.inputHorizontal = vectorAction.DiscreteActions[1] - 1;
+
         }
 
         public float getTotalRewards() {

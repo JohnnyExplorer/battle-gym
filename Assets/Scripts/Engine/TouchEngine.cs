@@ -21,7 +21,7 @@ namespace Engine {
         //Spot controls
         public int spotPoolSize = 10;
         public float configSpotSpawnCount;
-        public float configSpawnLocationDivider;
+        public float configSpawnLocationDivider = 1;
         public float configMaxEpisodeLength = 1000;
         public float activeSpots = 0;
         private Dictionary<int,GameObject?> spotInstance;
@@ -33,6 +33,7 @@ namespace Engine {
         private (float,float) gameArea;
         public int currentFrame = 0;
         
+        private StatsRecorder stats;
         public TouchEngine() {
             spotInstance = new Dictionary<int,GameObject>();
         }
@@ -43,25 +44,26 @@ namespace Engine {
             SetupLessonParameters();
             // Debug.Log("ENGINE - Spot Engine Start");
             HingeJoint hingeInactive = this.GetComponentInChildren(typeof(HingeJoint), true) as HingeJoint;
-
             gameArea = GetFieldArea(transform.Find("Plane").gameObject.GetComponent<Renderer>());
             InitialSpotSpawn(spotPoolSize);
             SpotSpawn(configSpotSpawnCount);
             SetupAgent(gameObjectAgent);
             GeneralUI.possible = (int)activeSpots;
-
-            
-
+            stats = Academy.Instance.StatsRecorder;
         }
 
-        private void SetupLessonParameters() {
-
+        private void SetupLessonParameters()
+        {
             Debug.Log("Got me some values configSpotSpawnCount " + (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configSpotSpawnCount", configSpotSpawnCount));
             Debug.Log("Got me some values configSpawnLocationDivider " + Academy.Instance.EnvironmentParameters.GetWithDefault("configSpawnLocationDivider", configSpawnLocationDivider));
             Debug.Log("Got me some values configMaxEpisodeLength " + (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configMaxEpisodeLength", configMaxEpisodeLength));
             configSpotSpawnCount = (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configSpotSpawnCount", configSpotSpawnCount);
             configSpawnLocationDivider = Academy.Instance.EnvironmentParameters.GetWithDefault("configSpawnLocationDivider", configSpawnLocationDivider);
             configMaxEpisodeLength =  (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configMaxEpisodeLength", configMaxEpisodeLength);
+            
+            configSpawnLocationDivider = (configSpawnLocationDivider == 0) ? 1 : configSpawnLocationDivider;
+            configSpotSpawnCount = (configSpotSpawnCount == 0 )? spotPoolSize : configSpotSpawnCount;
+            configMaxEpisodeLength = (configMaxEpisodeLength == 0) ? 1000 : configMaxEpisodeLength;
         }
 
         private void SetupAgent(GameObject agent)
@@ -139,11 +141,13 @@ namespace Engine {
             if(activeSpots <= 0 && spawningLock == false) {
                 if(spotFound.Count > 1) {
                     RewardAgentRewardFinished();
+                    stats.Add("Stats/FinishType",0);
                 }
                 Resetboard();
             }
             if(IsAgentDead(agentInstance) && spawningLock == false) {
                 PenalizeAgentDead();
+                stats.Add("Stats/FinishType",3);
                 Resetboard();
             }
             
@@ -154,6 +158,7 @@ namespace Engine {
 
             if(currentFrame >= configMaxEpisodeLength) {
                 PenalizeAgentTime();
+                stats.Add("Stats/FinishType",2);
                 Resetboard();
             } else {
                 PenalizeAgentforiteration();
@@ -254,6 +259,8 @@ namespace Engine {
         }    
 
         private void Resetboard() {
+             stats.Add("Stats/Found",spotFound.Count/configSpotSpawnCount);
+             stats.Add("Stats/Finished Time", currentFrame/configMaxEpisodeLength);
              SetupLessonParameters();
              SignalAgentEngineReset();
              ResetAgent();
@@ -264,7 +271,7 @@ namespace Engine {
              spotFound.Clear();
              
              var agentTotalReward = kempoAgent.getTotalRewards();
-             GeneralUI.reward = agentTotalReward; 
+             GeneralUI.reward = agentTotalReward;
 
         }
     }
