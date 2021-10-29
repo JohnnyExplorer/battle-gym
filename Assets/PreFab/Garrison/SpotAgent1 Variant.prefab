@@ -17,19 +17,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2010524823, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: cac64ca494908e1bdae82ce6d03525c4, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_BehaviorType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_InferenceDevice
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSpaceType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11820596158162293, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.m_NumContinuousActions
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1511152985871678918, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: walkSpeed
@@ -37,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544173579531869330, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1544173579729970654, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
       propertyPath: m_RootOrder

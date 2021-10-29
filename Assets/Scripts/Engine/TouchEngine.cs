@@ -62,7 +62,7 @@ namespace Engine {
             configMaxEpisodeLength =  (int) Academy.Instance.EnvironmentParameters.GetWithDefault("configMaxEpisodeLength", configMaxEpisodeLength);
             
             configSpawnLocationDivider = (configSpawnLocationDivider == 0) ? 1 : configSpawnLocationDivider;
-            configSpotSpawnCount = (configSpotSpawnCount == 0 )? spotPoolSize : configSpotSpawnCount;
+            configSpotSpawnCount = (configSpotSpawnCount == 0 ) ? spotPoolSize : configSpotSpawnCount;
             configMaxEpisodeLength = (configMaxEpisodeLength == 0) ? 1000 : configMaxEpisodeLength;
         }
 
@@ -71,14 +71,14 @@ namespace Engine {
             if(agentInstance)
             Destroy(agentInstance);
             agentInstance = Instantiate(agent, new Vector3(
-                                                    RandomLoc(gameArea.Item1/configSpawnLocationDivider),
+                                                    0,
                                                     10.0f,
-                                                    RandomLoc(gameArea.Item2/configSpawnLocationDivider)
+                                                    0
                                                     ), Quaternion.identity,this.GetComponent<Transform>());
             agentInstance.transform.localPosition = new Vector3(
-                                                    RandomLoc(gameArea.Item1/configSpawnLocationDivider),
+                                                    0,
                                                     10.0f,
-                                                    RandomLoc(gameArea.Item2/configSpawnLocationDivider));
+                                                    0);
 
             //setup floor
             RPGCharacterController agentRpgController = agentInstance.GetComponentInParent<RPGCharacterController>();
@@ -142,11 +142,13 @@ namespace Engine {
                 if(spotFound.Count > 1) {
                     RewardAgentRewardFinished();
                     stats.Add("Stats/FinishType",0);
+                    ChangeFloorColor(Color.green);
                 }
                 Resetboard();
             }
             if(IsAgentDead(agentInstance) && spawningLock == false) {
                 PenalizeAgentDead();
+                ChangeFloorColor(Color.red);
                 stats.Add("Stats/FinishType",3);
                 Resetboard();
             }
@@ -156,9 +158,13 @@ namespace Engine {
             GeneralUI.ScreenText();
             currentFrame++;
 
+            if(currentFrame % 500 == 0) {
+                 ResetFloor();
+            }
             if(currentFrame >= configMaxEpisodeLength) {
                 PenalizeAgentTime();
                 stats.Add("Stats/FinishType",2);
+                ChangeFloorColor(Color.blue);
                 Resetboard();
             } else {
                 PenalizeAgentforiteration();
@@ -245,9 +251,9 @@ namespace Engine {
 
         private void ResetAgent() {
             agentInstance.transform.localPosition = new Vector3(
-                RandomLoc(gameArea.Item1/configSpawnLocationDivider),
+                0,
                 0.1f,
-                RandomLoc(gameArea.Item2/configSpawnLocationDivider));
+                0);
 
         }    
 
@@ -256,11 +262,21 @@ namespace Engine {
             {
                 SpotRemove(index);
             }
-        }    
+        }
+
+        private void ChangeFloorColor(Color color ) {
+            Debug.Log("floor" + gameObjectField.GetComponent<Renderer>().material);
+            gameObjectField.GetComponent<Renderer>().material.color = color;
+        }
+
+        private void ResetFloor() {
+            gameObjectField.GetComponent<Renderer>().material.color = Color.white;
+        }
 
         private void Resetboard() {
              stats.Add("Stats/Found",spotFound.Count/configSpotSpawnCount);
              stats.Add("Stats/Finished Time", currentFrame/configMaxEpisodeLength);
+             var agentTotalReward = kempoAgent.getTotalRewards();
              SetupLessonParameters();
              SignalAgentEngineReset();
              ResetAgent();
@@ -270,7 +286,6 @@ namespace Engine {
              currentFrame = 0;
              spotFound.Clear();
              
-             var agentTotalReward = kempoAgent.getTotalRewards();
              GeneralUI.reward = agentTotalReward;
 
         }

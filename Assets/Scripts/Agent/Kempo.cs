@@ -9,12 +9,12 @@ namespace Agent {
         public float goalCount;
         public AgentInputController agentInputController;
         public Rigidbody rBody;
-        private float rewardGoal = 5f;
-        private float rewardFinished = 3f;
-        private float penaltyFall = -2f;
-        private float penaltyTimeOut = -1f;
+        private float rewardGoal = 8f;
+        private float rewardFinished = 2f;
+        private float penaltyFall = -3f;
+        private float penaltyTimeOut = -2f;
 
-        private float iterationPenalty = -0.01f;
+        private float iterationPenalty = -0.001f;
 
         private string rootName = "";
 

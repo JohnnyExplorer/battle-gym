@@ -47,11 +47,12 @@ MonoBehaviour:
   gameObjectSpot: {fileID: 1512785648249720569, guid: d209dc09c251958ceb31a2306b893144, type: 3}
   gameObjectAgent: {fileID: 1544173579730336254, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
   gameObjectField: {fileID: 2059951931865356945}
-  spotSpawnCount: 3
-  dropLocationDivider: 1
+  spotPoolSize: 10
+  configSpotSpawnCount: 0
+  configSpawnLocationDivider: 1
+  configMaxEpisodeLength: 1000
   activeSpots: 0
-  frames: 0
-  maxframe: 500
+  currentFrame: 0
 --- !u!1 &2059951931775829563
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +145,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1375f24e04a9c0d8e8b3ed97d25e6d1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

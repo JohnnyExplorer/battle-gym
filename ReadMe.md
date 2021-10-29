@@ -1,7 +1,7 @@
 ## Battle Gym
 Unity RPG style ML agent training ground
 
-original Battle system : htEtp://roystanross.wordpress.com/
+original Battle system : http://roystanross.wordpress.com/
 
 # Setup After import
 
