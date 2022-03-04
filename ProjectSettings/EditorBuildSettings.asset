@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Gym/SpotGymx8.unity
+    guid: 513b62643f965e01ca57ac9389e8d5d1
   m_configObjects: {}

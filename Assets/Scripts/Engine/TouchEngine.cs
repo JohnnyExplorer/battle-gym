@@ -7,6 +7,8 @@ using System.Linq;
 using Agent;
 using Agent.Controllers;
 using Agent.Tools;
+using Agent.State;
+
 using UI;
 using RPGCharacterAnimsFREE;
 
@@ -28,6 +30,7 @@ namespace Engine {
         private List<int> spotFound = new List<int>();
         private GameObject agentInstance;
         private Kempo kempoAgent;
+        private AgentState agentState;
         
         private bool spawningLock = false;
         private (float,float) gameArea;
@@ -70,6 +73,7 @@ namespace Engine {
         {
             if(agentInstance)
             Destroy(agentInstance);
+            agentState = new AgentState();
             agentInstance = Instantiate(agent, new Vector3(
                                                     0,
                                                     10.0f,
@@ -85,7 +89,7 @@ namespace Engine {
             agentRpgController.floor = gameObjectField.GetComponent<Transform>();
             agentRpgController.Init();
             kempoAgent = agentInstance.GetComponent<Kempo>();
-
+            kempoAgent.setState(agentState);
             
             //spotInstance[index] 
             if(activeSpots > 0) {
@@ -106,6 +110,7 @@ namespace Engine {
                                                                                 ), Quaternion.identity,GetComponent<Transform>());
                 SpotPool(index);
                 var spotScript = spotInstance[index].GetComponent<Spot>();
+                spotInstance[index].active = 1;
                 spotScript.SetEngine(this,index);
             }
             spawningLock = false;
@@ -119,6 +124,8 @@ namespace Engine {
                 {
                     spotInstance[index].transform.localPosition = new Vector3(RandomLoc(gameArea.Item1/configSpawnLocationDivider), 10.1f, RandomLoc(gameArea.Item2/configSpawnLocationDivider));
                     spotInstance[index].GetComponent<Rigidbody>().useGravity = true;
+                    spotInstance[index].active=1;
+
                 }
                 activeSpots = count;
                 spawningLock = false;
@@ -158,7 +165,7 @@ namespace Engine {
             GeneralUI.ScreenText();
             currentFrame++;
 
-            if(currentFrame % 500 == 0) {
+            if(currentFrame % 10 == 0) {
                  ResetFloor();
             }
             if(currentFrame >= configMaxEpisodeLength) {
@@ -168,6 +175,7 @@ namespace Engine {
                 Resetboard();
             } else {
                 PenalizeAgentforiteration();
+                agentState.Tick();
             }
         }
         private void RewardAgentRewardFinished() {
@@ -229,6 +237,7 @@ namespace Engine {
             spotInstance[index].transform.localPosition = new Vector3((index * -5) +35, 10.1f, -35);
             spotInstance[index].GetComponent<Rigidbody>().useGravity = false;
             spotInstance[index].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            spotInstance[index].active = 0;
         }
 
         public void SpotFound(int index) {
@@ -237,6 +246,7 @@ namespace Engine {
                 SpotRemove(index);
                 spotFound.Add(index);
                 RewardAgentGoal();
+                ChangeFloorColor(Color.yellow);
             }
         }
 
@@ -245,6 +255,15 @@ namespace Engine {
             if(spotInstance.ContainsKey(index)) {
                 SpotRemove(index);
                 UpdateAgentGoalCount();
+            }
+        }
+
+        public Vector3 GetSpot() {
+            foreach(var item in myDictionary)
+            {
+                if(item.active==1) {
+                    return item.transform.localPosition;
+                }
             }
         }
 

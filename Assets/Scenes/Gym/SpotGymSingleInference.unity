@@ -291,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 2059951931299915024, guid: 2a3d6a12a8050c177b54a527133c02c1, type: 3}
       propertyPath: gameObjectAgent
       value: 
-      objectReference: {fileID: 1544173579730336254, guid: fdfd3f35b150c9b2ba5bfa20a5c113cf, type: 3}
+      objectReference: {fileID: 2460816198010114857, guid: c83fbc681bd503b3e8274fdd90598684, type: 3}
     - target: {fileID: 2059951931299915024, guid: 2a3d6a12a8050c177b54a527133c02c1, type: 3}
       propertyPath: configSpotSpawnCount
       value: 10

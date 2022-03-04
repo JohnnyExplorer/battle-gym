@@ -23,19 +23,19 @@ namespace RPGCharacterAnimsFREE
         private void OnGUI()
         {
             // Character is not dead.
-            if (!rpgCharacterController.isDead) {
+            // if (!rpgCharacterController.isDead) {
 
-				// Character is on the ground.
-				if (rpgCharacterController.maintainingGround) {
-					Navigation();
-					WeaponSwitching();
-					Attacks();
-					Damage();
-					RollDodgeTurn();
-				}
-				Jumping();
-            }
-            Misc();
+			// 	// Character is on the ground.
+			// 	if (rpgCharacterController.maintainingGround) {
+			// 		Navigation();
+			// 		WeaponSwitching();
+			// 		Attacks();
+			// 		Damage();
+			// 		RollDodgeTurn();
+			// 	}
+			// 	Jumping();
+            // }
+            // Misc();
         }
 
         private void Navigation()

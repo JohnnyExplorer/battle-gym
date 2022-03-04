@@ -12,7 +12,17 @@ namespace UI {
         public static int points = 0;
         public static int possible = 0;
         private static TextMesh GameObjectGeneralUI = null;
+        public static string fpsText;
+        public static float deltaTime;
+        public static float x;
+        public static float y;
     
+
+        public static void getFPS() {
+            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+            float fps = 1.0f / deltaTime;
+            fpsText = Mathf.Ceil (fps).ToString ();
+        }
         public static void ScreenText()        
         {
             // Debug.Log("UI  - Start"+ GameObject.Find("GeneralUI"));
@@ -25,12 +35,17 @@ namespace UI {
             if (GameObjectGeneralUI != null)
             {
                 // Debug.Log("UI - Updating UI");
-                GameObjectGeneralUI.text = string.Format("Episode={0}, Success={1}, Fail={2}  Win%{3} -- Reward {4} "
+                getFPS();
+                GameObjectGeneralUI.text = string.Format("x={6},y={7} FPS = {5}, Episode={0}, Success={1}, Fail={2}  Win%{3} -- Reward {4} "
                     , episode
                     , success
                     , fail
                     , successPercent.ToString("0")
                     , reward
+                    , fpsText
+                    , x
+                    , y
+                
                     
                     );
             } else {
